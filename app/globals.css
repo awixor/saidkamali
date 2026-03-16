@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #fafaf7;
+  color: #1c1c1c;
+}
+
+/* Gold divider with diamond */
+.divider-gold {
+  @apply flex items-center gap-4 my-8;
+}
+
+.divider-gold::before,
+.divider-gold::after {
+  content: "";
+  @apply flex-1 h-px bg-accent;
+}
