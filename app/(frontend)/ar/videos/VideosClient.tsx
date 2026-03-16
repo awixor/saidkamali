@@ -65,6 +65,7 @@ export default function VideosClient({
         {filtered.map((video) => (
           <VideoCard
             key={video.id}
+            id={video.id}
             youtubeId={video.youtubeId}
             lessonNumber={video.lessonNumber}
             title={video.title}

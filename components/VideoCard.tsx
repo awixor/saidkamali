@@ -1,4 +1,7 @@
+import Link from "next/link";
+
 type VideoCardProps = {
+  id: string;
   youtubeId: string;
   lessonNumber: number;
   title: string;
@@ -15,6 +18,7 @@ function toArabicNumerals(num: number): string {
 }
 
 export default function VideoCard({
+  id,
   youtubeId,
   lessonNumber,
   title,
@@ -22,10 +26,8 @@ export default function VideoCard({
   durationMinutes,
 }: VideoCardProps) {
   return (
-    <a
-      href={`https://youtube.com/watch?v=${youtubeId}`}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      href={`/ar/videos/${id}`}
       className="group block bg-card border border-border border-t-accent border-t rounded hover:border-accent transition-colors"
     >
       {/* Thumbnail */}
@@ -58,6 +60,6 @@ export default function VideoCard({
           </p>
         )}
       </div>
-    </a>
+    </Link>
   );
 }

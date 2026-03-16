@@ -80,6 +80,7 @@ export default async function BookPage({ params }: Props) {
             {videos.map((video) => (
               <VideoCard
                 key={video.id}
+                id={String(video.id)}
                 youtubeId={video.youtubeId}
                 lessonNumber={video.lessonNumber}
                 title={video.title}
