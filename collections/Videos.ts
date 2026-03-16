@@ -32,6 +32,10 @@ export const Videos: CollectionConfig = {
       type: "text",
     },
     {
+      name: "description",
+      type: "textarea",
+    },
+    {
       name: "publishedAt",
       type: "date",
     },
