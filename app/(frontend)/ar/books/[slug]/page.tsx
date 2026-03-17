@@ -54,6 +54,7 @@ export default async function BookPage({ params }: Props) {
     where: { book: { equals: book.id } },
     sort: "lessonNumber",
     limit: 500,
+    depth: 1,
   });
 
   return (
@@ -84,7 +85,7 @@ export default async function BookPage({ params }: Props) {
                 youtubeId={video.youtubeId}
                 lessonNumber={video.lessonNumber}
                 title={video.title}
-                chapter={video.chapter}
+                chapter={typeof video.chapter === "object" && video.chapter ? video.chapter.name : null}
                 durationMinutes={video.durationMinutes}
               />
             ))}

@@ -81,7 +81,7 @@ export default async function VideoPage({ params }: Props) {
     id: String(l.id),
     title: l.title,
     lessonNumber: l.lessonNumber,
-    chapter: l.chapter || null,
+    chapter: typeof l.chapter === "object" && l.chapter ? l.chapter.name : null,
   }));
 
   return (
@@ -130,9 +130,9 @@ export default async function VideoPage({ params }: Props) {
                 <h1 className="font-amiri text-2xl md:text-3xl font-bold text-foreground leading-relaxed">
                   {video.title}
                 </h1>
-                {video.chapter && (
+                {video.chapter && typeof video.chapter === "object" && (
                   <p className="font-naskh text-foreground/60 mt-1">
-                    {video.chapter}
+                    {video.chapter.name}
                   </p>
                 )}
               </div>

@@ -39,7 +39,7 @@ export default async function AllVideosPage() {
     youtubeId: video.youtubeId,
     title: video.title,
     lessonNumber: video.lessonNumber,
-    chapter: video.chapter || null,
+    chapter: typeof video.chapter === "object" && video.chapter ? video.chapter.name : null,
     durationMinutes: video.durationMinutes || null,
     bookId: String(
       typeof video.book === "object" ? video.book.id : video.book

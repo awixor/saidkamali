@@ -29,7 +29,8 @@ export const Videos: CollectionConfig = {
     },
     {
       name: "chapter",
-      type: "text",
+      type: "relationship",
+      relationTo: "chapters",
     },
     {
       name: "description",

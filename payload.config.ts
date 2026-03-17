@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import sharp from "sharp";
 
 import { Books } from "./collections/Books";
+import { Chapters } from "./collections/Chapters";
 import { Videos } from "./collections/Videos";
 
 const filename = fileURLToPath(import.meta.url);
@@ -17,7 +18,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Books, Videos],
+  collections: [Books, Chapters, Videos],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
