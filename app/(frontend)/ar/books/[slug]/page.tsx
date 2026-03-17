@@ -2,9 +2,9 @@ import { getPayload } from "payload";
 import config from "@payload-config";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/Footer";
-import VideoCard from "@/components/VideoCard";
 import Divider from "@/components/Divider";
 
 type Props = {
@@ -49,12 +49,32 @@ export default async function BookPage({ params }: Props) {
   const book = books[0];
   if (!book) notFound();
 
-  const { docs: videos, totalDocs } = await payload.find({
+  // Fetch chapters for this book
+  const { docs: chapters } = await payload.find({
+    collection: "chapters",
+    where: { book: { equals: book.id } },
+    sort: "order",
+    limit: 100,
+  });
+
+  // Count videos per chapter
+  const chapterCounts: Record<string, number> = {};
+  await Promise.all(
+    chapters.map(async (chapter) => {
+      const { totalDocs } = await payload.find({
+        collection: "videos",
+        where: { chapter: { equals: chapter.id } },
+        limit: 0,
+      });
+      chapterCounts[String(chapter.id)] = totalDocs;
+    })
+  );
+
+  // Total lessons in this book
+  const { totalDocs } = await payload.find({
     collection: "videos",
     where: { book: { equals: book.id } },
-    sort: "lessonNumber",
-    limit: 500,
-    depth: 1,
+    limit: 0,
   });
 
   return (
@@ -75,25 +95,38 @@ export default async function BookPage({ params }: Props) {
           </div>
         </section>
 
-        {/* Lessons Grid */}
-        <section className="max-w-7xl mx-auto px-4 pb-16">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {videos.map((video) => (
-              <VideoCard
-                key={video.id}
-                id={String(video.id)}
-                youtubeId={video.youtubeId}
-                lessonNumber={video.lessonNumber}
-                title={video.title}
-                chapter={typeof video.chapter === "object" && video.chapter ? video.chapter.name : null}
-                durationMinutes={video.durationMinutes}
-              />
-            ))}
-          </div>
-
-          {videos.length === 0 && (
+        {/* Chapters Grid */}
+        <section className="max-w-5xl mx-auto px-4 pb-16">
+          {chapters.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {chapters.map((chapter) => {
+                const count = chapterCounts[String(chapter.id)] ?? 0;
+                return (
+                  <Link
+                    key={chapter.id}
+                    href={`/ar/chapters/${chapter.id}`}
+                    className="group block bg-card border border-border rounded-sm p-5 hover:border-accent transition-colors"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <h2 className="font-amiri text-xl font-bold text-foreground group-hover:text-accent transition-colors leading-tight">
+                          {chapter.name}
+                        </h2>
+                        <p className="font-naskh text-sm text-foreground/50 mt-1">
+                          {toArabicNumerals(count)} درس
+                        </p>
+                      </div>
+                      <span className="font-naskh text-sm text-accent/60 shrink-0 mt-1">
+                        {toArabicNumerals(chapter.order)}
+                      </span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          ) : (
             <p className="text-center font-naskh text-foreground/50 py-16">
-              لا توجد دروس بعد
+              لا توجد أبواب بعد
             </p>
           )}
         </section>
