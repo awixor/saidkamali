@@ -30,6 +30,7 @@ yarn-error.log*
 
 # payload
 .payload/
+/data/
 
 # vercel
 .vercel
