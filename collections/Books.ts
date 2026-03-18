@@ -23,6 +23,13 @@ export const Books: CollectionConfig = {
       required: true,
     },
     {
+      name: "page",
+      type: "number",
+      admin: {
+        description: "Page number in the Muwatta book",
+      },
+    },
+    {
       name: "coverVideoId",
       type: "relationship",
       relationTo: "videos",

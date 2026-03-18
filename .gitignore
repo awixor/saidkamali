@@ -29,6 +29,12 @@ yarn-error.log*
 .env*.local
 .env.prod
 
+# scripts
+seed-books.ts
+seed-videos.ts
+sync-youtube.ts
+extract-videos.ts
+
 # payload
 .payload/
 /data/

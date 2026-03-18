@@ -23,5 +23,12 @@ export const Chapters: CollectionConfig = {
       type: "number",
       required: true,
     },
+    {
+      name: "page",
+      type: "number",
+      admin: {
+        description: "Page number in the Muwatta book",
+      },
+    },
   ],
 };

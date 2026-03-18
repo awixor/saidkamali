@@ -22,10 +22,12 @@ function toArabicNumerals(num: number): string {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const payload = await getPayload({ config });
-  const chapter = await payload.findByID({
-    collection: "chapters",
-    id,
-  }).catch(() => null);
+  const chapter = await payload
+    .findByID({
+      collection: "chapters",
+      id,
+    })
+    .catch(() => null);
 
   if (!chapter) return { title: "غير موجود" };
 
@@ -97,12 +99,12 @@ export default async function ChapterPage({ params }: Props) {
         {/* Hero */}
         <section className="py-10 md:py-14 text-center">
           <div className="max-w-4xl mx-auto px-4">
-            <p className="font-naskh text-sm text-accent mb-2">{bookName}</p>
+            <p className="font-naskh text-sm text-accent mb-6">{bookName}</p>
             <h1 className="font-amiri text-3xl md:text-5xl font-bold text-foreground leading-tight">
               {chapter.name}
             </h1>
             <p className="font-naskh text-foreground/60 mt-3">
-              {toArabicNumerals(totalDocs)} درس
+              {toArabicNumerals(totalDocs)} دروس
             </p>
             <Divider />
           </div>
