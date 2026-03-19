@@ -12,14 +12,6 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
-function toArabicNumerals(num: number): string {
-  const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
-  return String(num)
-    .split("")
-    .map((d) => arabicDigits[parseInt(d)] || d)
-    .join("");
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const payload = await getPayload({ config });
@@ -107,9 +99,7 @@ export default async function VideoPage({ params }: Props) {
                 <span>/</span>
               </>
             )}
-            <span className="text-foreground">
-              الدرس {toArabicNumerals(video.lessonNumber)}
-            </span>
+            <span className="text-foreground">الدرس {video.lessonNumber}</span>
           </nav>
 
           {/* Video Player */}
@@ -137,7 +127,7 @@ export default async function VideoPage({ params }: Props) {
                 )}
               </div>
               <span className="shrink-0 bg-accent text-white text-sm font-bold px-3 py-1 rounded font-naskh">
-                الدرس {toArabicNumerals(video.lessonNumber)}
+                الدرس {video.lessonNumber}
               </span>
             </div>
 
@@ -152,7 +142,7 @@ export default async function VideoPage({ params }: Props) {
                 </Link>
               )}
               {video.durationMinutes && (
-                <span>{toArabicNumerals(video.durationMinutes)} دقيقة</span>
+                <span>{video.durationMinutes} دقيقة</span>
               )}
               {video.publishedAt && (
                 <span>

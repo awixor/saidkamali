@@ -20,14 +20,6 @@ type Results = {
   videos: Video[];
 };
 
-function toArabicNumerals(num: number): string {
-  const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
-  return String(num)
-    .split("")
-    .map((d) => arabicDigits[parseInt(d)] || d)
-    .join("");
-}
-
 export default function SearchModal({
   open,
   onClose,
@@ -36,7 +28,11 @@ export default function SearchModal({
   onClose: () => void;
 }) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Results>({ books: [], chapters: [], videos: [] });
+  const [results, setResults] = useState<Results>({
+    books: [],
+    chapters: [],
+    videos: [],
+  });
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -57,7 +53,9 @@ export default function SearchModal({
     } else {
       document.body.style.overflow = "";
     }
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [open]);
 
   // Close on Escape
@@ -97,7 +95,10 @@ export default function SearchModal({
     debounceRef.current = setTimeout(() => search(value), 300);
   }
 
-  const hasResults = results.books.length > 0 || results.chapters.length > 0 || results.videos.length > 0;
+  const hasResults =
+    results.books.length > 0 ||
+    results.chapters.length > 0 ||
+    results.videos.length > 0;
   const hasQuery = query.trim().length >= 2;
 
   if (!open) return null;
@@ -174,8 +175,19 @@ export default function SearchModal({
                       className="flex items-center gap-3 px-5 py-3 hover:bg-accent/5 transition-colors"
                     >
                       <span className="flex items-center justify-center w-8 h-8 rounded bg-secondary/10 text-secondary shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-4 h-4"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
+                          />
                         </svg>
                       </span>
                       <span className="font-amiri text-sm font-bold text-foreground">
@@ -188,7 +200,11 @@ export default function SearchModal({
 
               {/* Chapters */}
               {results.chapters.length > 0 && (
-                <div className={results.books.length > 0 ? "border-t border-border" : ""}>
+                <div
+                  className={
+                    results.books.length > 0 ? "border-t border-border" : ""
+                  }
+                >
                   <p className="px-5 py-2 text-xs font-naskh font-semibold text-foreground/40 uppercase tracking-wide">
                     الأبواب
                   </p>
@@ -200,14 +216,29 @@ export default function SearchModal({
                       className="flex items-center gap-3 px-5 py-3 hover:bg-accent/5 transition-colors"
                     >
                       <span className="flex items-center justify-center w-8 h-8 rounded bg-accent/10 text-accent shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="w-4 h-4"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
+                          />
                         </svg>
                       </span>
                       <div>
-                        <p className="font-amiri text-sm font-bold text-foreground">{ch.name}</p>
+                        <p className="font-amiri text-sm font-bold text-foreground">
+                          {ch.name}
+                        </p>
                         {ch.bookName && (
-                          <p className="font-naskh text-xs text-foreground/40">{ch.bookName}</p>
+                          <p className="font-naskh text-xs text-foreground/40">
+                            {ch.bookName}
+                          </p>
                         )}
                       </div>
                     </Link>
@@ -217,7 +248,13 @@ export default function SearchModal({
 
               {/* Videos */}
               {results.videos.length > 0 && (
-                <div className={(results.books.length > 0 || results.chapters.length > 0) ? "border-t border-border" : ""}>
+                <div
+                  className={
+                    results.books.length > 0 || results.chapters.length > 0
+                      ? "border-t border-border"
+                      : ""
+                  }
+                >
                   <p className="px-5 py-2 text-xs font-naskh font-semibold text-foreground/40 uppercase tracking-wide">
                     الدروس
                   </p>
@@ -229,14 +266,16 @@ export default function SearchModal({
                       className="flex items-center gap-3 px-5 py-3 hover:bg-accent/5 transition-colors"
                     >
                       <span className="flex items-center justify-center w-8 h-8 rounded bg-accent text-white text-xs font-bold font-naskh shrink-0">
-                        {toArabicNumerals(v.lessonNumber)}
+                        {v.lessonNumber}
                       </span>
                       <div className="min-w-0">
                         <p className="font-amiri text-sm font-bold text-foreground truncate">
                           {v.title}
                         </p>
                         <p className="font-naskh text-xs text-foreground/40 truncate">
-                          {[v.bookName, v.chapterName].filter(Boolean).join(" - ")}
+                          {[v.bookName, v.chapterName]
+                            .filter(Boolean)
+                            .join(" - ")}
                         </p>
                       </div>
                     </Link>

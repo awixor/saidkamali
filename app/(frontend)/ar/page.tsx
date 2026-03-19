@@ -1,6 +1,7 @@
 import { getPayload } from "payload";
 import config from "@payload-config";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/Footer";
@@ -16,14 +17,6 @@ export const metadata: Metadata = {
     description: "المكتبة الشاملة لدروس شرح موطأ الإمام مالك",
   },
 };
-
-function toArabicNumerals(num: number): string {
-  const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
-  return String(num)
-    .split("")
-    .map((d) => arabicDigits[parseInt(d)] || d)
-    .join("");
-}
 
 export default async function HomePage() {
   const payload = await getPayload({ config });
@@ -60,7 +53,7 @@ export default async function HomePage() {
         lessonCount: totalDocs,
         coverYoutubeId: coverVideoId || "fgPYSrwVMiY",
       };
-    })
+    }),
   );
 
   return (
@@ -79,7 +72,7 @@ export default async function HomePage() {
             </p>
             <div className="mt-6">
               <span className="inline-block bg-accent/10 text-accent font-naskh font-semibold text-sm px-4 py-2 rounded border border-accent/20">
-                {toArabicNumerals(totalLessons)} درسًا
+                {totalLessons} درسًا
               </span>
             </div>
             <Divider />
@@ -95,11 +88,13 @@ export default async function HomePage() {
                 href={`/ar/books/${book.slug}`}
                 className="group block bg-card border border-border border-t-accent border-t rounded hover:border-accent transition-colors overflow-hidden"
               >
-                <div className="aspect-video overflow-hidden">
-                  <img
+                <div className="relative aspect-video overflow-hidden">
+                  <Image
                     src={`https://img.youtube.com/vi/${book.coverYoutubeId}/hqdefault.jpg`}
                     alt={book.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
                 <div className="p-3 md:p-4">
@@ -107,7 +102,7 @@ export default async function HomePage() {
                     {book.name}
                   </h2>
                   <p className="font-naskh text-xs text-foreground/60 mt-1">
-                    {toArabicNumerals(book.lessonCount)} درس
+                    {book.lessonCount} درس
                   </p>
                 </div>
               </Link>

@@ -34,6 +34,7 @@ seed-books.ts
 seed-videos.ts
 sync-youtube.ts
 extract-videos.ts
+patch-next-env.cjs
 
 # payload
 .payload/

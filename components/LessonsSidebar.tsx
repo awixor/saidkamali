@@ -10,14 +10,6 @@ type Lesson = {
   chapter: string | null;
 };
 
-function toArabicNumerals(num: number): string {
-  const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
-  return String(num)
-    .split("")
-    .map((d) => arabicDigits[parseInt(d)] || d)
-    .join("");
-}
-
 export default function LessonsSidebar({
   lessons,
   currentId,
@@ -42,7 +34,7 @@ export default function LessonsSidebar({
             {bookName}
           </h2>
           <p className="font-naskh text-xs text-foreground/50 mt-1">
-            {toArabicNumerals(lessons.length)} درس
+            {lessons.length} درس
           </p>
         </div>
 
@@ -69,7 +61,7 @@ export default function LessonsSidebar({
                         : "bg-background text-foreground/60"
                     }`}
                   >
-                    {toArabicNumerals(lesson.lessonNumber)}
+                    {lesson.lessonNumber}
                   </span>
                   <div className="min-w-0">
                     <p
@@ -79,7 +71,7 @@ export default function LessonsSidebar({
                           : "text-foreground/80"
                       }`}
                     >
-                      الدرس {toArabicNumerals(lesson.lessonNumber)}
+                      الدرس {lesson.lessonNumber}
                     </p>
                     {lesson.chapter && (
                       <p className="font-naskh text-xs text-foreground/40 truncate mt-0.5">

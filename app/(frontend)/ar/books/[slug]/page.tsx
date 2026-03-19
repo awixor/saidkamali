@@ -11,14 +11,6 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-function toArabicNumerals(num: number): string {
-  const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
-  return String(num)
-    .split("")
-    .map((d) => arabicDigits[parseInt(d)] || d)
-    .join("");
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const payload = await getPayload({ config });
@@ -67,7 +59,7 @@ export default async function BookPage({ params }: Props) {
         limit: 0,
       });
       chapterCounts[String(chapter.id)] = totalDocs;
-    })
+    }),
   );
 
   // Total lessons in this book
@@ -89,7 +81,7 @@ export default async function BookPage({ params }: Props) {
               {book.name}
             </h1>
             <p className="font-naskh text-foreground/60 mt-3">
-              {toArabicNumerals(totalDocs)} درس
+              {totalDocs} درس
             </p>
             <Divider />
           </div>
@@ -113,11 +105,11 @@ export default async function BookPage({ params }: Props) {
                           {chapter.name}
                         </h2>
                         <p className="font-naskh text-sm text-foreground/50 mt-1">
-                          {toArabicNumerals(count)} درس
+                          {count} درس
                         </p>
                       </div>
                       <span className="font-naskh text-sm text-accent/60 shrink-0 mt-1">
-                        {toArabicNumerals(chapter.order)}
+                        {chapter.order}
                       </span>
                     </div>
                   </Link>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 type VideoCardProps = {
@@ -8,14 +9,6 @@ type VideoCardProps = {
   chapter?: string | null;
   durationMinutes?: number | null;
 };
-
-function toArabicNumerals(num: number): string {
-  const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
-  return String(num)
-    .split("")
-    .map((d) => arabicDigits[parseInt(d)] || d)
-    .join("");
-}
 
 export default function VideoCard({
   id,
@@ -32,19 +25,21 @@ export default function VideoCard({
     >
       {/* Thumbnail */}
       <div className="relative aspect-video overflow-hidden">
-        <img
+        <Image
           src={`https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`}
           alt={title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          fill
+          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+          className="object-cover group-hover:scale-105 transition-transform duration-300"
         />
         {/* Lesson number badge */}
         <span className="absolute top-2 left-2 bg-accent text-white text-xs font-bold px-2 py-1 rounded font-naskh">
-          {toArabicNumerals(lessonNumber)}
+          {lessonNumber}
         </span>
         {/* Duration */}
         {durationMinutes && (
           <span className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded font-naskh">
-            {toArabicNumerals(durationMinutes)} د
+            {durationMinutes} د
           </span>
         )}
       </div>

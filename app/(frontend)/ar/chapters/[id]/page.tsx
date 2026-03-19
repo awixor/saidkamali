@@ -11,14 +11,6 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
-function toArabicNumerals(num: number): string {
-  const arabicDigits = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
-  return String(num)
-    .split("")
-    .map((d) => arabicDigits[parseInt(d)] || d)
-    .join("");
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const payload = await getPayload({ config });
@@ -104,7 +96,7 @@ export default async function ChapterPage({ params }: Props) {
               {chapter.name}
             </h1>
             <p className="font-naskh text-foreground/60 mt-3">
-              {toArabicNumerals(totalDocs)} دروس
+              {totalDocs} دروس
             </p>
             <Divider />
           </div>
