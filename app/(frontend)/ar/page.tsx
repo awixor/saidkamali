@@ -12,9 +12,12 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "الشيخ سعيد الكملي - شرح موطأ الإمام مالك",
   description: "المكتبة الشاملة لدروس شرح موطأ الإمام مالك للشيخ سعيد الكملي",
+  alternates: { canonical: "/ar" },
   openGraph: {
     title: "الشيخ سعيد الكملي - شرح موطأ الإمام مالك",
-    description: "المكتبة الشاملة لدروس شرح موطأ الإمام مالك",
+    description: "المكتبة الشاملة لدروس شرح موطأ الإمام مالك للشيخ سعيد الكملي",
+    url: "/ar",
+    images: ["/og-image.png"],
   },
 };
 

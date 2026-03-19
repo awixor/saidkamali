@@ -11,6 +11,12 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "جميع الدروس - الشيخ سعيد الكملي",
   description: "جميع دروس شرح موطأ الإمام مالك للشيخ سعيد الكملي",
+  alternates: { canonical: "/ar/videos" },
+  openGraph: {
+    title: "جميع الدروس - الشيخ سعيد الكملي",
+    description: "جميع دروس شرح موطأ الإمام مالك للشيخ سعيد الكملي",
+    url: "/ar/videos",
+  },
 };
 
 export default async function AllVideosPage() {

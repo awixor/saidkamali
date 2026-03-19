@@ -22,16 +22,32 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       id,
       depth: 1,
     });
+    const desc =
+      video.description || `${video.title} من شرح موطأ الإمام مالك للشيخ سعيد الكملي`;
     return {
       title: `${video.title} - الشيخ سعيد الكملي`,
-      description:
-        video.description || `${video.title} من شرح موطأ الإمام مالك`,
+      description: desc,
+      alternates: { canonical: `/ar/videos/${id}` },
       openGraph: {
         title: video.title,
-        description:
-          video.description || `${video.title} من شرح موطأ الإمام مالك`,
+        description: desc,
+        url: `/ar/videos/${id}`,
+        type: "video.other",
         images: [
-          `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`,
+          {
+            url: `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`,
+            width: 1280,
+            height: 720,
+            alt: video.title,
+          },
+        ],
+        videos: [
+          {
+            url: `https://www.youtube.com/embed/${video.youtubeId}`,
+            width: 1280,
+            height: 720,
+            type: "text/html",
+          },
         ],
       },
     };
@@ -76,8 +92,74 @@ export default async function VideoPage({ params }: Props) {
     chapter: typeof l.chapter === "object" && l.chapter ? l.chapter.name : null,
   }));
 
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: video.title,
+    description:
+      video.description || `${video.title} من شرح موطأ الإمام مالك للشيخ سعيد الكملي`,
+    thumbnailUrl: `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`,
+    uploadDate: video.publishedAt || undefined,
+    embedUrl: `https://www.youtube.com/embed/${video.youtubeId}`,
+    contentUrl: `https://www.youtube.com/watch?v=${video.youtubeId}`,
+    ...(video.durationMinutes && {
+      duration: `PT${video.durationMinutes}M`,
+    }),
+    author: {
+      "@type": "Person",
+      name: "الشيخ سعيد الكملي",
+      url: baseUrl,
+    },
+    isPartOf: book
+      ? {
+          "@type": "CreativeWorkSeries",
+          name: book.name,
+          url: `${baseUrl}/ar/books/${book.slug}`,
+        }
+      : undefined,
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "الرئيسية",
+        item: `${baseUrl}/ar`,
+      },
+      ...(book
+        ? [
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: book.name,
+              item: `${baseUrl}/ar/books/${book.slug}`,
+            },
+          ]
+        : []),
+      {
+        "@type": "ListItem",
+        position: book ? 3 : 2,
+        name: video.title,
+        item: `${baseUrl}/ar/videos/${id}`,
+      },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <NavbarWrapper />
 
       <div className="max-w-7xl mx-auto px-4 py-8 flex gap-6">

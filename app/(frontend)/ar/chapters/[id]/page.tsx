@@ -30,7 +30,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${chapter.name} - ${bookName} - الشيخ سعيد الكملي`,
-    description: `دروس ${chapter.name} من ${bookName}`,
+    description: `دروس ${chapter.name} من ${bookName} - شرح موطأ الإمام مالك للشيخ سعيد الكملي`,
+    alternates: { canonical: `/ar/chapters/${id}` },
+    openGraph: {
+      title: `${chapter.name} - ${bookName}`,
+      description: `دروس ${chapter.name} من ${bookName} - شرح موطأ الإمام مالك`,
+      url: `/ar/chapters/${id}`,
+    },
   };
 }
 

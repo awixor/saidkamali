@@ -18,13 +18,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     collection: "books",
     where: { slug: { equals: slug } },
     limit: 1,
+    depth: 1,
   });
 
   if (!docs[0]) return { title: "غير موجود" };
 
+  const book = docs[0];
+  const coverYoutubeId =
+    typeof book.coverVideoId === "object" && book.coverVideoId
+      ? book.coverVideoId.youtubeId
+      : "fgPYSrwVMiY";
+
   return {
-    title: `${docs[0].name} - الشيخ سعيد الكملي`,
-    description: `دروس ${docs[0].name} من شرح موطأ الإمام مالك`,
+    title: `${book.name} - الشيخ سعيد الكملي`,
+    description: `دروس ${book.name} من شرح موطأ الإمام مالك للشيخ سعيد الكملي`,
+    alternates: { canonical: `/ar/books/${slug}` },
+    openGraph: {
+      title: `${book.name} - الشيخ سعيد الكملي`,
+      description: `دروس ${book.name} من شرح موطأ الإمام مالك`,
+      url: `/ar/books/${slug}`,
+      images: [`https://img.youtube.com/vi/${coverYoutubeId}/maxresdefault.jpg`],
+    },
   };
 }
 

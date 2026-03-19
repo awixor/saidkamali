@@ -24,20 +24,40 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const payload = await getPayload({ config });
-    const { docs: books } = await payload.find({
-      collection: "books",
-      sort: "order",
-      limit: 100,
-    });
+
+    const [{ docs: books }, { docs: chapters }, { docs: videos }] =
+      await Promise.all([
+        payload.find({ collection: "books", sort: "order", limit: 100 }),
+        payload.find({ collection: "chapters", sort: "order", limit: 500 }),
+        payload.find({
+          collection: "videos",
+          sort: "lessonNumber",
+          limit: 2000,
+        }),
+      ]);
 
     const bookPages: MetadataRoute.Sitemap = books.map((book) => ({
       url: `${baseUrl}/ar/books/${book.slug}`,
-      lastModified: new Date(),
+      lastModified: new Date(book.updatedAt),
       changeFrequency: "weekly" as const,
       priority: 0.9,
     }));
 
-    return [...staticPages, ...bookPages];
+    const chapterPages: MetadataRoute.Sitemap = chapters.map((chapter) => ({
+      url: `${baseUrl}/ar/chapters/${chapter.id}`,
+      lastModified: new Date(chapter.updatedAt),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }));
+
+    const videoPages: MetadataRoute.Sitemap = videos.map((video) => ({
+      url: `${baseUrl}/ar/videos/${video.id}`,
+      lastModified: new Date(video.updatedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    }));
+
+    return [...staticPages, ...bookPages, ...chapterPages, ...videoPages];
   } catch {
     return staticPages;
   }
