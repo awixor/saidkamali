@@ -1,5 +1,6 @@
 {
+  "regions": ["dub1"],
   "functions": {
-    "app/api/**": { "maxDuration": 30 }
+    "app/**": { "maxDuration": 60 }
   }
 }
