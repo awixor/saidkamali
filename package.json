@@ -18,6 +18,7 @@
     "@payloadcms/next": "^3.79.1",
     "@payloadcms/richtext-lexical": "^3.79.1",
     "graphql": "^16.13.1",
+    "libsql": "^0.5.22",
     "next": "15.4.11",
     "payload": "^3.79.1",
     "react": "^19.2.4",

@@ -10,6 +10,7 @@ const nextConfig = {
       },
     ],
   },
+  serverExternalPackages: ["libsql"],
 };
 
 export default withPayload(nextConfig);
