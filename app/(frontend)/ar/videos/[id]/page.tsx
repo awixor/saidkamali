@@ -162,26 +162,26 @@ export default async function VideoPage({ params }: Props) {
       />
       <NavbarWrapper />
 
-      <div className="max-w-7xl mx-auto px-4 py-8 flex gap-6">
+      <div className="max-w-7xl mx-auto px-4 py-6 lg:py-8 flex flex-col lg:flex-row gap-6">
         <main className="flex-1 min-w-0">
           {/* Breadcrumb */}
-          <nav className="font-naskh text-sm text-foreground/60 mb-6 flex items-center gap-2">
-            <Link href="/ar" className="hover:text-accent transition-colors">
+          <nav className="font-naskh text-sm text-foreground/60 mb-4 lg:mb-6 flex items-center gap-2 overflow-x-auto whitespace-nowrap">
+            <Link href="/ar" className="hover:text-accent transition-colors shrink-0">
               الرئيسية
             </Link>
-            <span>/</span>
+            <span className="shrink-0">/</span>
             {book && (
               <>
                 <Link
                   href={`/ar/books/${book.slug}`}
-                  className="hover:text-accent transition-colors"
+                  className="hover:text-accent transition-colors shrink-0"
                 >
                   {book.name}
                 </Link>
-                <span>/</span>
+                <span className="shrink-0">/</span>
               </>
             )}
-            <span className="text-foreground">الدرس {video.lessonNumber}</span>
+            <span className="text-foreground shrink-0">الدرس {video.lessonNumber}</span>
           </nav>
 
           {/* Video Player */}
@@ -214,7 +214,7 @@ export default async function VideoPage({ params }: Props) {
             </div>
 
             {/* Meta info */}
-            <div className="flex items-center gap-4 mt-4 font-naskh text-sm text-foreground/50">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-4 font-naskh text-sm text-foreground/50">
               {book && (
                 <Link
                   href={`/ar/books/${book.slug}`}
@@ -249,18 +249,18 @@ export default async function VideoPage({ params }: Props) {
           )}
 
           {/* Lesson Navigation */}
-          <div className="flex items-center justify-between gap-4 py-6 border-t border-border">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 py-6 border-t border-border">
             {nextLesson ? (
               <Link
                 href={`/ar/videos/${nextLesson.id}`}
-                className="group flex items-center gap-2 font-naskh text-sm text-foreground/70 hover:text-accent transition-colors"
+                className="group flex items-center gap-2 font-naskh text-sm text-foreground/70 hover:text-accent transition-colors p-3 sm:p-0 rounded border border-border sm:border-0"
               >
                 <span className="text-lg">&rarr;</span>
-                <div>
+                <div className="min-w-0">
                   <span className="block text-xs text-foreground/40">
                     الدرس التالي
                   </span>
-                  <span className="group-hover:text-accent">
+                  <span className="group-hover:text-accent truncate block">
                     {nextLesson.title}
                   </span>
                 </div>
@@ -271,13 +271,13 @@ export default async function VideoPage({ params }: Props) {
             {prevLesson ? (
               <Link
                 href={`/ar/videos/${prevLesson.id}`}
-                className="group flex items-center gap-2 font-naskh text-sm text-foreground/70 hover:text-accent transition-colors text-left"
+                className="group flex items-center gap-2 font-naskh text-sm text-foreground/70 hover:text-accent transition-colors text-left p-3 sm:p-0 rounded border border-border sm:border-0"
               >
-                <div>
+                <div className="min-w-0">
                   <span className="block text-xs text-foreground/40">
                     الدرس السابق
                   </span>
-                  <span className="group-hover:text-accent">
+                  <span className="group-hover:text-accent truncate block">
                     {prevLesson.title}
                   </span>
                 </div>

@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
+import { SearchIcon, BookIcon, ChapterIcon } from "./Icons";
 
 type Book = { id: string; slug: string; name: string };
 type Chapter = { id: string; name: string; bookName: string | null };
@@ -46,17 +48,7 @@ export default function SearchModal({
     }
   }, [open]);
 
-  // Lock body scroll
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
+  useBodyScrollLock(open);
 
   // Close on Escape
   useEffect(() => {
@@ -115,20 +107,7 @@ export default function SearchModal({
       <div className="relative w-full max-w-2xl mx-4 bg-card rounded-lg shadow-2xl border border-border overflow-hidden">
         {/* Search input */}
         <div className="flex items-center gap-3 px-5 py-4 border-b border-border">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-5 h-5 text-foreground/40 shrink-0"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-            />
-          </svg>
+          <SearchIcon className="w-5 h-5 text-foreground/40 shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -175,20 +154,7 @@ export default function SearchModal({
                       className="flex items-center gap-3 px-5 py-3 hover:bg-accent/5 transition-colors"
                     >
                       <span className="flex items-center justify-center w-8 h-8 rounded bg-secondary/10 text-secondary shrink-0">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-4 h-4"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25"
-                          />
-                        </svg>
+                        <BookIcon />
                       </span>
                       <span className="font-amiri text-sm font-bold text-foreground">
                         {book.name}
@@ -216,20 +182,7 @@ export default function SearchModal({
                       className="flex items-center gap-3 px-5 py-3 hover:bg-accent/5 transition-colors"
                     >
                       <span className="flex items-center justify-center w-8 h-8 rounded bg-accent/10 text-accent shrink-0">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-4 h-4"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"
-                          />
-                        </svg>
+                        <ChapterIcon />
                       </span>
                       <div>
                         <p className="font-amiri text-sm font-bold text-foreground">

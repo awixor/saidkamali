@@ -34,7 +34,7 @@ export default function VideosClient({
   return (
     <>
       {/* Filter pills */}
-      <div className="flex flex-wrap gap-2 mb-8 justify-center">
+      <div className="flex flex-wrap gap-2 mb-6 lg:mb-8 justify-center px-1">
         <button
           onClick={() => setActiveBook(null)}
           className={`font-naskh text-sm px-4 py-2 rounded border transition-colors ${
