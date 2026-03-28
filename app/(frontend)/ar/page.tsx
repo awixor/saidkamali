@@ -6,19 +6,13 @@ import Link from "next/link";
 import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/Footer";
 import Divider from "@/components/Divider";
+import JsonLd from "@/components/SEO/JsonLd";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "الشيخ سعيد الكملي - شرح موطأ الإمام مالك",
-  description: "المكتبة الشاملة لدروس شرح موطأ الإمام مالك للشيخ سعيد الكملي",
+  title: "الرئيسية",
   alternates: { canonical: "/ar" },
-  openGraph: {
-    title: "الشيخ سعيد الكملي - شرح موطأ الإمام مالك",
-    description: "المكتبة الشاملة لدروس شرح موطأ الإمام مالك للشيخ سعيد الكملي",
-    url: "/ar",
-    images: ["/og-image.png"],
-  },
 };
 
 export default async function HomePage() {
@@ -59,8 +53,40 @@ export default async function HomePage() {
     }),
   );
 
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "سعيد الكملي",
+    alternateName: ["Said Kamali", "Sheikh Said Kamali"],
+    description: "الشيخ سعيد الكملي - شرح موطأ الإمام مالك",
+    url: baseUrl,
+    image: `${baseUrl}/og-image.png`,
+    sameAs: [
+      "https://www.youtube.com/@SaidKamali",
+      // Add other social links if known
+    ],
+    jobTitle: "Scholar",
+    knowsAbout: ["Islamic Studies", "Muwatta Imam Malik", "Fiqh", "Hadith"],
+  };
+
+  const courseJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: "شرح موطأ الإمام مالك",
+    description: "شرح مفصل لموطأ الإمام مالك للشيخ سعيد الكملي",
+    provider: {
+      "@type": "Person",
+      name: "سعيد الكملي",
+      url: baseUrl,
+    },
+  };
+
   return (
     <>
+      <JsonLd data={jsonLd} />
+      <JsonLd data={courseJsonLd} />
       <NavbarWrapper />
 
       <main>

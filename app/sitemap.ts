@@ -40,14 +40,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: `${baseUrl}/ar/books/${book.slug}`,
       lastModified: new Date(book.updatedAt),
       changeFrequency: "weekly" as const,
-      priority: 0.9,
+      priority: 0.8,
     }));
 
     const chapterPages: MetadataRoute.Sitemap = chapters.map((chapter) => ({
       url: `${baseUrl}/ar/chapters/${chapter.id}`,
       lastModified: new Date(chapter.updatedAt),
       changeFrequency: "weekly" as const,
-      priority: 0.8,
+      priority: 0.6,
     }));
 
     const videoPages: MetadataRoute.Sitemap = videos.map((video) => ({

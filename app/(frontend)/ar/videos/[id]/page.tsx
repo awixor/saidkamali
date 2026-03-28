@@ -7,6 +7,7 @@ import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/Footer";
 import Divider from "@/components/Divider";
 import LessonsSidebar from "@/components/LessonsSidebar";
+import JsonLd from "@/components/SEO/JsonLd";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const desc =
       video.description || `${video.title} من شرح موطأ الإمام مالك للشيخ سعيد الكملي`;
     return {
-      title: `${video.title} - الشيخ سعيد الكملي`,
+      title: `${video.title} - دروس مفهرسة | الشيخ سعيد الكملي`,
       description: desc,
       alternates: { canonical: `/ar/videos/${id}` },
       openGraph: {
@@ -152,14 +153,8 @@ export default async function VideoPage({ params }: Props) {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
+      <JsonLd data={jsonLd} />
+      <JsonLd data={breadcrumbJsonLd} />
       <NavbarWrapper />
 
       <div className="max-w-7xl mx-auto px-4 py-6 lg:py-8 flex flex-col lg:flex-row gap-6">

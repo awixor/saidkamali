@@ -6,6 +6,7 @@ import Link from "next/link";
 import NavbarWrapper from "@/components/NavbarWrapper";
 import Footer from "@/components/Footer";
 import Divider from "@/components/Divider";
+import JsonLd from "@/components/SEO/JsonLd";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -30,12 +31,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       : "fgPYSrwVMiY";
 
   return {
-    title: `${book.name} - الشيخ سعيد الكملي`,
-    description: `دروس ${book.name} من شرح موطأ الإمام مالك للشيخ سعيد الكملي`,
+    title: `${book.name} - دروس مفهرسة | الشيخ سعيد الكملي`,
+    description: `المكتبة الشاملة لدروس ${book.name} (دروس مفهرسة) من شرح موطأ الإمام مالك للشيخ سعيد الكملي`,
     alternates: { canonical: `/ar/books/${slug}` },
     openGraph: {
-      title: `${book.name} - الشيخ سعيد الكملي`,
-      description: `دروس ${book.name} من شرح موطأ الإمام مالك`,
+      title: `${book.name} - دروس مفهرسة | الشيخ سعيد الكملي`,
+      description: `المكتبة الشاملة لدروس ${book.name} (دروس مفهرسة) من شرح موطأ الإمام مالك للشيخ سعيد الكملي`,
       url: `/ar/books/${slug}`,
       images: [`https://img.youtube.com/vi/${coverYoutubeId}/maxresdefault.jpg`],
     },
@@ -83,8 +84,27 @@ export default async function BookPage({ params }: Props) {
     limit: 0,
   });
 
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `${book.name} - دروس مفهرسة`,
+    description: `دروس ${book.name} من شرح موطأ الإمام مالك للشيخ سعيد الكملي`,
+    url: `${baseUrl}/ar/books/${slug}`,
+    mainEntity: {
+      "@type": "CreativeWorkSeries",
+      name: book.name,
+      author: {
+        "@type": "Person",
+        name: "سعيد الكملي",
+      },
+    },
+  };
+
   return (
     <>
+      <JsonLd data={jsonLd} />
       <NavbarWrapper />
 
       <main>

@@ -7,14 +7,29 @@ const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:3000";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "الشيخ سعيد الكملي - شرح موطأ الإمام مالك",
+    default: "الشيخ سعيد الكملي - شرح موطأ الإمام مالك | دروس مفهرسة",
     template: "%s | الشيخ سعيد الكملي",
   },
-  description: "المكتبة الشاملة لدروس شرح موطأ الإمام مالك للشيخ سعيد الكملي",
+  description:
+    "المكتبة الشاملة لدروس الشيخ سعيد الكملي (Said Kamali) - شرح موطأ الإمام مالك. دروس مفهرسة ومنظمة لسهولة البحث والوصول.",
+  keywords: [
+    "سعيد الكملي",
+    "Said Kamali",
+    "دروس الشيخ سعيد الكملي",
+    "شرح الموطأ",
+    "موطأ الإمام مالك",
+    "دروس مفهرسة",
+    "الفقه المالكي",
+    "الحديث النبوي",
+  ],
+  authors: [{ name: "Sheikh Said Kamali", url: baseUrl }],
   openGraph: {
     type: "website",
     locale: "ar_SA",
-    siteName: "الشيخ سعيد الكملي",
+    siteName: "الشيخ سعيد الكملي - Said Kamali",
+    title: "الشيخ سعيد الكملي - شرح موطأ الإمام مالك | دروس مفهرسة",
+    description:
+      "المكتبة الشاملة لدروس الشيخ سعيد الكملي (Said Kamali) - شرح موطأ الإمام مالك. دروس مفهرسة ومنظمة لسهولة البحث والوصول.",
     images: [
       {
         url: "/og-image.png",
@@ -26,9 +41,23 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    title: "الشيخ سعيد الكملي - شرح موطأ الإمام مالك | دروس مفهرسة",
+    description: "المكتبة الشاملة لدروس الشيخ سعيد الكملي - شرح موطأ الإمام مالك",
+    images: ["/og-image.png"],
   },
   alternates: {
-    canonical: "/",
+    canonical: "/ar",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
